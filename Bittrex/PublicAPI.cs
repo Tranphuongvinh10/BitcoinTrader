@@ -30,11 +30,11 @@ namespace Bittrex
 
         }
 
-        public GetMarketResponse GetMarket()
+        public List<GetMarketResponse> GetMarket()
         {
             var request = BuildGetRequest(string.Format("public/getmarkets"), DataFormat.Json);
-            var apiResult = Execute<ApiCallResponse<GetMarketResponse>>(request);
-            if (apiResult != null && apiResult.result != null && apiResult.result.MarketName.Contains("BTC-"))
+            var apiResult = Execute<ApiCallResponse<List<GetMarketResponse>>>(request);
+            if (apiResult != null && apiResult.result != null)
                 return apiResult.result;
             return null;
         }

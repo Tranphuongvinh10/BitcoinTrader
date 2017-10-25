@@ -20,7 +20,8 @@ namespace BitcoinTrader
            // var result = PublicAPI.Instance.GetMarket();
 
             List<GetMarketResponse> coinnameList = new List<GetMarketResponse>();
-            coinnameList.Add(PublicAPI.Instance.GetMarket());
+            var coinName = PublicAPI.Instance.GetMarket();
+            //coinnameList.Add(PublicAPI.Instance.GetMarket());
           //  coinnameList.Add(new coinname { name = "rob", coinnameID = "32" });
           // coinnameList.Add(new coinname { name = "annie", coinnameID = "24" });
           //coinnameList.Add(new coinname { name = "paul", coinnameID = "19" });
