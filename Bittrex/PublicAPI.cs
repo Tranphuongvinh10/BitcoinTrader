@@ -57,8 +57,10 @@ namespace Bittrex
         /// <param name="quantity"></param>
         /// <param name="price"></param>
         /// <returns></returns>
-        public OrderResponse PlaceBuyOrder(string apiKey, string market, decimal quantity, decimal price, long unixTime)
+        public OrderResponse PlaceBuyOrder(string apiKey, string market, decimal quantity, decimal price)
         {
+            long epochTicks = new DateTime(1970, 1, 1).Ticks;
+            long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
             var request = BuildGetRequest(string.Format("market/buylimit?apikey={0}&market={1}&quantity={2}&rate={3}&nonce={4}", apiKey, market, quantity, price, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<OrderResponse>>(request);
             return apiResult.result;
@@ -72,8 +74,10 @@ namespace Bittrex
         /// <param name="quantity"></param>
         /// <param name="price"></param>
         /// <returns></returns>
-        public OrderResponse PlaceSellOrder(string apiKey, string market, decimal quantity, decimal price, long unixTime)
+        public OrderResponse PlaceSellOrder(string apiKey, string market, decimal quantity, decimal price)
         {
+            long epochTicks = new DateTime(1970, 1, 1).Ticks;
+            long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
             var request = BuildGetRequest(string.Format("market/selllimit?apikey={0}&market={1}&quantity={2}&rate={3}&nonce={4}", apiKey, market, quantity, price, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<OrderResponse>>(request);
             return apiResult.result;
@@ -115,8 +119,10 @@ namespace Bittrex
         #endregion
 
         #region Account API
-        public AccountBalance GetBalance(string apiKey, string market, long unixTime)
+        public AccountBalance GetBalance(string apiKey, string market)
         {
+            long epochTicks = new DateTime(1970, 1, 1).Ticks;
+            long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
             var request = BuildGetRequest(string.Format("account/getbalance?apikey={0}&currency={1}&nonce={2}", apiKey, market, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<AccountBalance>>(request);
             return apiResult.result;

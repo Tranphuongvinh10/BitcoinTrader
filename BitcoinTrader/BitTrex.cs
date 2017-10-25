@@ -50,10 +50,7 @@ namespace BitcoinTrader
 
         private void btnGetBalances_Click(object sender, EventArgs e)
         {
-            long epochTicks = new DateTime(1970, 1, 1).Ticks;
-            long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
-
-
+            
             var coinNameBuy = txbBitcoinName.Text;
             var coinFullNameBuy = "";
             if (txbBitcoinName.Text.Contains("BTC-"))
@@ -66,7 +63,7 @@ namespace BitcoinTrader
             }
             PublicAPI.Instance.Token = apiSecret;
             // var result = PublicAPI.Instance.GetBalances("8347ad35f0294f199073dd186339741f", unixTime);
-            var result = PublicAPI.Instance.GetBalance(apiKey, "BTC", unixTime);
+            var result = PublicAPI.Instance.GetBalance(apiKey, "BTC");
             //check if Available of BTC > 0 then begin preparing to BUY
             if (result.Available >= 0)
             {
@@ -79,9 +76,9 @@ namespace BitcoinTrader
                     quantityBuy = (result.Available / askBuy) * 999 / 1000;
                     //Begin Buy coin
                     quantitySell = quantityBuy;
-                    BuyCoin(apiKey, coinFullNameBuy, quantityBuy, askBuy, unixTime);
+                    BuyCoin(apiKey, coinFullNameBuy, quantityBuy, askBuy);
 
-                    var coinInfoSell = PublicAPI.Instance.GetBalance(apiKey, coinNameBuy, unixTime);
+                    var coinInfoSell = PublicAPI.Instance.GetBalance(apiKey, coinNameBuy);
                     if (coinInfoSell.Available >= (decimal)(0.0005))
                     {
 
@@ -95,7 +92,7 @@ namespace BitcoinTrader
                                 {
                                     //calculate profit and SELL coin
                                     var profitSell = orderInfoSell[i].PricePerUnit + orderInfoSell[i].PricePerUnit * Decimal.Parse(txbProfitSell.Text) / 100;
-                                    SellCoin(apiKey, coinFullNameBuy, quantitySell, profitSell, unixTime);
+                                    SellCoin(apiKey, coinFullNameBuy, quantitySell, profitSell);
                                 }
                             }
                         }
@@ -106,13 +103,13 @@ namespace BitcoinTrader
 
         }
 
-        public void BuyCoin(string apiKey, string coinFullNameBuy, decimal quantityBuy, decimal askBuy, long unixTime)
+        public void BuyCoin(string apiKey, string coinFullNameBuy, decimal quantityBuy, decimal askBuy)
         {
-            // var completedBuy = PublicAPI.Instance.PlaceBuyOrder(apiKey, coinFullNameBuy, quantityBuy, askBuy, unixTime);
+            // var completedBuy = PublicAPI.Instance.PlaceBuyOrder(apiKey, coinFullNameBuy, quantityBuy, askBuy);
         }
-        public void SellCoin(string apiKey, string coinFullNameSell, decimal quantitySell, decimal price, long unixTime)
+        public void SellCoin(string apiKey, string coinFullNameSell, decimal quantitySell, decimal price)
         {
-            //  var completedBuy = PublicAPI.Instance.PlaceBuyOrder(apiKey, coinFullNameSell, quantitySell, price, unixTime);
+            //  var completedBuy = PublicAPI.Instance.PlaceBuyOrder(apiKey, coinFullNameSell, quantitySell, price);
         }
         public void CancelCoin()
         {
@@ -125,10 +122,9 @@ namespace BitcoinTrader
         /// <returns></returns>
         public string AvailableBalanceBTC()
         {
-            long epochTicks = new DateTime(1970, 1, 1).Ticks;
-            long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
+            
             PublicAPI.Instance.Token = apiSecret;
-            var resultBTC = PublicAPI.Instance.GetBalance(apiKey, "BTC", unixTime);
+            var resultBTC = PublicAPI.Instance.GetBalance(apiKey, "BTC");
             if (resultBTC != null)
             {
                 return resultBTC.Available.ToString();
