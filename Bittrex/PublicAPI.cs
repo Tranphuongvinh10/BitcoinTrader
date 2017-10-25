@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bittrex
 {
@@ -32,11 +30,20 @@ namespace Bittrex
 
         }
 
+        public GetMarketResponse GetMarket()
+        {
+            var request = BuildGetRequest(string.Format("public/getmarkets"), DataFormat.Json);
+            var apiResult = Execute<ApiCallResponse<GetMarketResponse>>(request);
+            if (apiResult != null && apiResult.result != null && apiResult.result.MarketName.Contains("BTC-"))
+                return apiResult.result;
+            return null;
+        }
+
         public GetMarketSummaryResponse GetMarketSummary(string market)
         {
             var request = BuildGetRequest(string.Format("public/getmarketsummary?market={0}", market), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<List<GetMarketSummaryResponse>>>(request);
-            if (apiResult != null && apiResult.result.Count > 0)
+            if (apiResult != null && apiResult.result != null)
                 return apiResult.result.FirstOrDefault();
             return null;
         }
@@ -50,9 +57,9 @@ namespace Bittrex
         /// <param name="quantity"></param>
         /// <param name="price"></param>
         /// <returns></returns>
-        public OrderResponse PlaceBuyOrder(string apiKey, string market, decimal quantity, decimal price)
+        public OrderResponse PlaceBuyOrder(string apiKey, string market, decimal quantity, decimal price, long unixTime)
         {
-            var request = BuildGetRequest(string.Format("market/buylimit?apikey={0}&market={1}&quantity={2}&rate={3}", apiKey, market, quantity, price), DataFormat.Json);
+            var request = BuildGetRequest(string.Format("market/buylimit?apikey={0}&market={1}&quantity={2}&rate={3}&nonce={4}", apiKey, market, quantity, price, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<OrderResponse>>(request);
             return apiResult.result;
         }
@@ -65,9 +72,9 @@ namespace Bittrex
         /// <param name="quantity"></param>
         /// <param name="price"></param>
         /// <returns></returns>
-        public OrderResponse PlaceSellOrder(string apiKey, string market, decimal quantity, decimal price)
+        public OrderResponse PlaceSellOrder(string apiKey, string market, decimal quantity, decimal price, long unixTime)
         {
-            var request = BuildGetRequest(string.Format("market/selllimit?apikey={0}&market={1}&quantity={2}&rate={3}", apiKey, market, quantity, price), DataFormat.Json);
+            var request = BuildGetRequest(string.Format("market/selllimit?apikey={0}&market={1}&quantity={2}&rate={3}&nonce={4}", apiKey, market, quantity, price, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<OrderResponse>>(request);
             return apiResult.result;
         }
@@ -108,30 +115,39 @@ namespace Bittrex
         #endregion
 
         #region Account API
-        public AccountBalance GetBalance(string apiKey, string market)
+        public AccountBalance GetBalance(string apiKey, string market, long unixTime)
         {
-            var request = BuildGetRequest(string.Format("account/getbalance?apikey={0}&currency={1}", apiKey, market), DataFormat.Json);
+            var request = BuildGetRequest(string.Format("account/getbalance?apikey={0}&currency={1}&nonce={2}", apiKey, market, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<AccountBalance>>(request);
             return apiResult.result;
         }
 
-        public GetBalancesResponse GetBalances(string apiKey)
+        public GetBalancesResponse GetBalances(string apiKey, long unixTime)
         {
-            var request = BuildGetRequest(string.Format("account/getbalances?apikey={0}", apiKey), DataFormat.Json);
+            var request = BuildGetRequest(string.Format("account/getbalances?apikey={0}&nonce={1}", apiKey, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<GetBalancesResponse>>(request);
             return apiResult.result;
         }
 
+        /*
         public GetOrderHistoryResponse GetOrderHistory(string market, int count = 20)
         {
             var request = BuildGetRequest(string.Format("account/getorderhistory?market={0}&?count={1}", market, count), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<GetOrderHistoryResponse>>(request);
             return apiResult.result;
         }
+        */
 
-        public CompletedOrder GetOrderHistory(string uuid)
+        public GetOrderHistoryResponse GetOrderHistory(string apiKey,long unixTime)
         {
-            var request = BuildGetRequest(string.Format("account/getorder?uuid={0}", uuid), DataFormat.Json);
+            var request = BuildGetRequest(string.Format("account/getorderhistory?apikey={0}&nonce={1}",apiKey,unixTime), DataFormat.Json);
+            var apiResult = Execute<ApiCallResponse<GetOrderHistoryResponse>>(request);
+            return apiResult.result;
+        }
+
+        public CompletedOrder GetCompleteOrderHistory(string uuid, long unixTime)
+        {
+            var request = BuildGetRequest(string.Format("account/getorder?uuid={0}&nonce={2}", uuid, unixTime), DataFormat.Json);
             var apiResult = Execute<ApiCallResponse<CompletedOrder>>(request);
             return apiResult.result;
         }

@@ -55,6 +55,7 @@
     <Compile Include="BitTrex.Designer.cs">
       <DependentUpon>BitTrex.cs</DependentUpon>
     </Compile>
+    <Compile Include="coinname.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="BitTrex.resx">

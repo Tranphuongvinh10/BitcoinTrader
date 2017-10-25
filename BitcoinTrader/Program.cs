@@ -18,5 +18,6 @@ namespace BitcoinTrader
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new BitTrex());
         }
+      
     }
 }

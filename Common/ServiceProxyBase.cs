@@ -3,6 +3,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,14 +40,31 @@ namespace Common
             req.AddBody(data);
             return req;
         }
-
+        private string byteToString(byte[] buff)
+        {
+            string sbinary = "";
+            for (int i = 0; i < buff.Length; i++)
+                sbinary += buff[i].ToString("X2"); /* hex format */
+            return sbinary;
+        }
         public T Execute<T>(RestRequest request) where T : new()
         {
             var client = new RestClient();
             client.BaseUrl = new Uri(_baseUrl);
 
             if (!string.IsNullOrWhiteSpace(Token))
-                request.AddHeader("Authorization", Token); // used on every request
+            {
+                var apiSecretBytes = Encoding.UTF8.GetBytes(Token);
+                var uriBytes = Encoding.UTF8.GetBytes(client.BuildUri(request).AbsoluteUri);
+                using (var hmac = new HMACSHA512(apiSecretBytes))
+                {
+                    var hash = hmac.ComputeHash(uriBytes);
+                    var hashText = byteToString(hash);
+                    request.AddHeader("apisign", hashText); // used on every request
+
+                }
+                
+            }
 
             var response = client.Execute(request);
 

@@ -55,6 +55,7 @@
     <Compile Include="Entities\CompletedOrder.cs" />
     <Compile Include="Entities\GetBalancesResponse.cs" />
     <Compile Include="Entities\GetMarketHistoryResponse.cs" />
+    <Compile Include="Entities\GetMarketResponse.cs" />
     <Compile Include="Entities\GetMarketSummaryResponse.cs" />
     <Compile Include="Entities\GetOpenOrdersResponse.cs" />
     <Compile Include="Entities\GetOrderBookResponse.cs" />
