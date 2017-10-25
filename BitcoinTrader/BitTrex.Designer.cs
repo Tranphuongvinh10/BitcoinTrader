@@ -75,11 +75,11 @@
             // 
             // txbBitcoinName
             // 
-            this.txbBitcoinName.Location = new System.Drawing.Point(37, 23);
+            this.txbBitcoinName.Location = new System.Drawing.Point(6, 3);
             this.txbBitcoinName.Name = "txbBitcoinName";
-            this.txbBitcoinName.Size = new System.Drawing.Size(116, 20);
+            this.txbBitcoinName.Size = new System.Drawing.Size(10, 20);
             this.txbBitcoinName.TabIndex = 2;
-            this.txbBitcoinName.TextChanged += new System.EventHandler(this.txbBitcoinName_TextChanged);
+            this.txbBitcoinName.Visible = false;
             // 
             // lblHigh
             // 
@@ -165,7 +165,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 84);
+            this.label6.Location = new System.Drawing.Point(10, 84);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 13);
             this.label6.TabIndex = 8;
@@ -178,13 +178,12 @@
             this.btnValueBTCtoBuy.Size = new System.Drawing.Size(177, 20);
             this.btnValueBTCtoBuy.TabIndex = 3;
             this.btnValueBTCtoBuy.TextChanged += new System.EventHandler(this.btnValueBTCtoBuy_TextChanged);
-            this.btnValueBTCtoBuy.MouseLeave += new System.EventHandler(this.btnValueBTCtoBuy_TextLeave);
             // 
             // lblcoinName
             // 
             this.lblcoinName.AutoSize = true;
             this.lblcoinName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblcoinName.Location = new System.Drawing.Point(204, 15);
+            this.lblcoinName.Location = new System.Drawing.Point(171, 15);
             this.lblcoinName.Name = "lblcoinName";
             this.lblcoinName.Size = new System.Drawing.Size(22, 16);
             this.lblcoinName.TabIndex = 2;
@@ -193,9 +192,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 16);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(11, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 13);
+            this.label1.Size = new System.Drawing.Size(162, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Input BTC you want to buy ";
             // 
@@ -252,18 +252,18 @@
             this.lblCoinNameSell.AutoSize = true;
             this.lblCoinNameSell.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCoinNameSell.ForeColor = System.Drawing.Color.Blue;
-            this.lblCoinNameSell.Location = new System.Drawing.Point(363, 114);
+            this.lblCoinNameSell.Location = new System.Drawing.Point(353, 122);
             this.lblCoinNameSell.Name = "lblCoinNameSell";
-            this.lblCoinNameSell.Size = new System.Drawing.Size(98, 18);
+            this.lblCoinNameSell.Size = new System.Drawing.Size(24, 18);
             this.lblCoinNameSell.TabIndex = 1;
-            this.lblCoinNameSell.Text = "(coin name)";
+            this.lblCoinNameSell.Text = "xx";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(321, 115);
+            this.label2.Location = new System.Drawing.Point(311, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 18);
             this.label2.TabIndex = 0;
@@ -301,7 +301,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 118);
+            this.label3.Location = new System.Drawing.Point(11, 126);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(146, 13);
             this.label3.TabIndex = 14;
@@ -311,7 +311,7 @@
             // 
             this.lblAvailableBalanceBTC.AutoSize = true;
             this.lblAvailableBalanceBTC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAvailableBalanceBTC.Location = new System.Drawing.Point(151, 116);
+            this.lblAvailableBalanceBTC.Location = new System.Drawing.Point(149, 124);
             this.lblAvailableBalanceBTC.Name = "lblAvailableBalanceBTC";
             this.lblAvailableBalanceBTC.Size = new System.Drawing.Size(22, 16);
             this.lblAvailableBalanceBTC.TabIndex = 15;
@@ -358,9 +358,9 @@
             this.groupBox2.Controls.Add(this.txbProfitSell);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Location = new System.Drawing.Point(311, 136);
+            this.groupBox2.Location = new System.Drawing.Point(311, 134);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(334, 165);
+            this.groupBox2.Size = new System.Drawing.Size(334, 167);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             // 
@@ -369,10 +369,11 @@
             this.cmbListCoinInBittrex.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cmbListCoinInBittrex.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbListCoinInBittrex.FormattingEnabled = true;
-            this.cmbListCoinInBittrex.Location = new System.Drawing.Point(232, 12);
+            this.cmbListCoinInBittrex.Location = new System.Drawing.Point(38, 23);
             this.cmbListCoinInBittrex.Name = "cmbListCoinInBittrex";
             this.cmbListCoinInBittrex.Size = new System.Drawing.Size(121, 21);
             this.cmbListCoinInBittrex.TabIndex = 22;
+            this.cmbListCoinInBittrex.SelectedIndexChanged += new System.EventHandler(this.cmbListCoinInBittrex_SelectedChange);
             // 
             // BitTrex
             // 

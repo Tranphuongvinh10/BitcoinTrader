@@ -17,18 +17,22 @@ namespace BitcoinTrader
         {
             InitializeComponent();
             PublicAPI.Instance.Token = apiSecret;
-           // var result = PublicAPI.Instance.GetMarket();
+            // var result = PublicAPI.Instance.GetMarket();
 
-            List<GetMarketResponse> coinnameList = new List<GetMarketResponse>();
-            var coinName = PublicAPI.Instance.GetMarket();
-            //coinnameList.Add(PublicAPI.Instance.GetMarket());
-          //  coinnameList.Add(new coinname { name = "rob", coinnameID = "32" });
-          // coinnameList.Add(new coinname { name = "annie", coinnameID = "24" });
-          //coinnameList.Add(new coinname { name = "paul", coinnameID = "19" });
+            List<coinname> coinnameList = new List<coinname>();
+            var coinNameTempList = PublicAPI.Instance.GetMarket();
+            coinnameList.Add(new coinname { MarketCurrency = "", MarketName = "" });
+            for (int i = 0; i < coinNameTempList.Count; i++)
+            {
+                if (coinNameTempList[i].MarketName.Contains("BTC-"))
+                {
+                    coinnameList.Add(new coinname { MarketCurrency = coinNameTempList[i].MarketCurrency, MarketName = coinNameTempList[i].MarketName });
+                }
+            }
 
             cmbListCoinInBittrex.DataSource = coinnameList;
             cmbListCoinInBittrex.DisplayMember = "MarketCurrency";
-            //cmbListCoinInBittrex.ValueMember = "coinnameID";
+            cmbListCoinInBittrex.ValueMember = "MarketCurrency";
         }
 
         public const string apiKey = "8347ad35f0294f199073dd186339741f";
@@ -50,7 +54,7 @@ namespace BitcoinTrader
 
         private void btnGetBalances_Click(object sender, EventArgs e)
         {
-            
+
             var coinNameBuy = txbBitcoinName.Text;
             var coinFullNameBuy = "";
             if (txbBitcoinName.Text.Contains("BTC-"))
@@ -122,7 +126,7 @@ namespace BitcoinTrader
         /// <returns></returns>
         public string AvailableBalanceBTC()
         {
-            
+
             PublicAPI.Instance.Token = apiSecret;
             var resultBTC = PublicAPI.Instance.GetBalance(apiKey, "BTC");
             if (resultBTC != null)
@@ -154,12 +158,30 @@ namespace BitcoinTrader
             //calculate profit and SELL coin
             if (pricePerUnit != null && perProfit != null)
             {
-                return ((Decimal.Parse(pricePerUnit) + Decimal.Parse(pricePerUnit) * Decimal.Parse(perProfit) / 100 )* Decimal.Parse(lblTotalBuy.Text)).ToString();
+                return ((Decimal.Parse(pricePerUnit) + Decimal.Parse(pricePerUnit) * Decimal.Parse(perProfit) / 100) * Decimal.Parse(lblTotalBuy.Text)).ToString();
             }
             return "0";
         }
-        private void txbBitcoinName_TextChanged(object sender, EventArgs e)
+
+        private void btnValueBTCtoBuy_TextChanged(object sender, EventArgs e)
         {
+            lblTotalBuy.Text = TotalQuantityCoinBuy(btnValueBTCtoBuy.Text, "BTC-" + txbBitcoinName.Text).Remove(12);
+            lblTotalSell.Text = ValueProfitSell(lblAskData.Text, txbProfitSell.Text).Remove(12);
+
+        }
+
+        private void txbProfitSellTextChanged_TextChanged(object sender, EventArgs e)
+        {
+            lblTotalSell.Text = ValueProfitSell(lblAskData.Text, txbProfitSell.Text).Remove(12);
+        }
+
+        private void cmbListCoinInBittrex_SelectedChange(object sender, EventArgs e)
+        {
+            txbBitcoinName.Text = cmbListCoinInBittrex.Text;
+            if (txbBitcoinName.Text == "BitcoinTrader.coinname")
+            {
+                txbBitcoinName.Text = string.Empty;
+            }
             long epochTicks = new DateTime(1970, 1, 1).Ticks;
             long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
             lblcoinName.Text = txbBitcoinName.Text;
@@ -184,9 +206,9 @@ namespace BitcoinTrader
                 lblBidData.Text = result.Bid.ToString();
                 lblAvailableBalanceBTC.Text = AvailableBalanceBTC();
                 btnValueBTCtoBuy.Text = lblAvailableBalanceBTC.Text;
-                lblTotalBuy.Text = TotalQuantityCoinBuy(lblAvailableBalanceBTC.Text, coinFullName);
+                lblTotalBuy.Text = TotalQuantityCoinBuy(lblAvailableBalanceBTC.Text, coinFullName).Remove(12);
                 lblcoinNameBuy1.Text = coinName;
-                lblTotalSell.Text = ValueProfitSell(lblAskData.Text, txbProfitSell.Text);
+                lblTotalSell.Text = ValueProfitSell(lblAskData.Text, txbProfitSell.Text).Remove(12);
                 lblCoinNameSell.Text = coinFullName.ToUpper();
 
             }
@@ -200,24 +222,6 @@ namespace BitcoinTrader
                 lblBidData.Text = string.Empty;
                 lblCoinNameSell.Text = string.Empty;
             }
-
-        }
-
-        private void btnValueBTCtoBuy_TextChanged(object sender, EventArgs e)
-        {
-            lblTotalBuy.Text = TotalQuantityCoinBuy(btnValueBTCtoBuy.Text, "BTC-" + txbBitcoinName.Text);
-            lblTotalSell.Text = ValueProfitSell(lblAskData.Text, txbProfitSell.Text);
-
-        }
-
-        private void btnValueBTCtoBuy_TextLeave(object sender, EventArgs e)
-        {
-            // lblTotalBuy.Text = TotalQuantityCoinBuy(btnValueBTCtoBuy.Text, "BTC-" + txbBitcoinName.Text);
-        }
-
-        private void txbProfitSellTextChanged_TextChanged(object sender, EventArgs e)
-        {
-            lblTotalSell.Text = ValueProfitSell(lblAskData.Text, txbProfitSell.Text);
         }
     }
 }
