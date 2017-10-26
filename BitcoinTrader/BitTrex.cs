@@ -35,8 +35,8 @@ namespace BitcoinTrader
             cmbListCoinInBittrex.ValueMember = "MarketCurrency";
         }
 
-        public const string apiKey = "8347ad35f0294f199073dd186339741f";
-        public const string apiSecret = "9575361a56af42fda4fc14ca298f78aa";
+        public const string apiKey = "";
+        public const string apiSecret = "";
         public const long epochTicks = 1;
         public const long unixTime = 1;
 
@@ -66,7 +66,7 @@ namespace BitcoinTrader
                 coinFullNameBuy = "BTC-" + txbBitcoinName.Text;
             }
             PublicAPI.Instance.Token = apiSecret;
-            // var result = PublicAPI.Instance.GetBalances("8347ad35f0294f199073dd186339741f", unixTime);
+            
             var result = PublicAPI.Instance.GetBalance(apiKey, "BTC");
             //check if Available of BTC > 0 then begin preparing to BUY
             if (result.Available >= 0)
